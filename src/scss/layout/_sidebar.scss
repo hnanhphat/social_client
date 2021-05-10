@@ -1,0 +1,118 @@
+.sidebar {
+  background: $white;
+  width: 38%;
+
+  &--scroll {
+    position: sticky;
+    top: 20px;
+    right: 0;
+  }
+
+  &__content {
+    .author {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+
+      &__avatar {
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+        margin-right: 12px;
+      }
+
+      &__info {
+        flex: 1;
+
+        h3,
+        p {
+          font-size: 12px;
+        }
+      }
+
+      &__btn {
+        color: $red-light;
+        font-weight: bold;
+      }
+    }
+
+    .friends {
+      padding: 10px;
+
+      &__title {
+        color: $grey-dark;
+        font-size: 14px;
+        margin-bottom: 14px;
+      }
+
+      &__list {
+        li {
+          display: flex;
+          align-items: center;
+
+          &:not(:last-child) {
+            margin-bottom: 16px;
+          }
+
+          .avatar {
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
+          }
+
+          .username {
+            flex: 1;
+            font-size: 14px;
+            font-weight: bold;
+          }
+
+          .btns {
+            display: flex;
+            align-items: center;
+
+            button {
+              margin: 0 2px;
+
+              &:nth-child(1) {
+                color: green;
+              }
+
+              &:nth-child(2) {
+                color: red;
+              }
+
+              svg {
+                width: 20px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__not-login {
+    color: $grey-dark;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+
+    &:link,
+    &:visited {
+      color: $grey-dark;
+    }
+
+    svg {
+      width: 18px;
+      margin-right: 8px;
+    }
+  }
+}

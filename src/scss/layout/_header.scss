@@ -1,0 +1,124 @@
+.header {
+  position: fixed;
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+  top: 0;
+  left: 0;
+  z-index: 100;
+
+  &__left {
+    font-size: 0;
+
+    svg {
+      height: 50px;
+    }
+  }
+
+  &__right {
+    .list {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+
+      a {
+        padding: 2px 0;
+
+        &:not(:first-child) {
+          margin-left: 15px;
+        }
+
+      }
+
+      .current-user {
+        display: flex;
+        align-items: center;
+        margin-left: 15px;
+        position: relative;
+
+        .avatar {
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
+          border-radius: 50%;
+          width: 32px;
+          height: 32px;
+          margin-left: 12px;
+        }
+
+        .dropdown {
+          color: $white;
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          width: 200px;
+          top: 100%;
+          right: 0;
+          padding: 8px 10px 0;
+          transform-origin: right top;
+          @include tranform_c(scale(0));
+          @include transition_c(all .5s ease-out);
+
+          &::before {
+            content: '';
+            position: absolute;
+            border-bottom: 4px solid currentColor;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            top: 4px;
+            right: 12px;
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            background: currentColor;
+            width: 100%;
+            height: calc(100% - 8px);
+            bottom: 0;
+            right: 0;
+          }
+
+          a {
+            color: $black;
+            font-size: 14px;
+            text-align: left;
+            padding: 15px 5px;
+            margin: 0;
+            line-height: 24px;
+            position: relative;
+            z-index: 1;
+
+            &:not(:last-child) {
+              border-bottom: 1px solid $grey-medium;
+            }
+          }
+        }
+
+        @include respond(hover) {
+          &:hover {
+            .dropdown {
+              @include tranform_c(scale(1));
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &--scroll {
+    color: $black;
+
+    .header__right .list a.current-user .dropdown {
+      // background: $black;
+      color: $black;
+
+      a {
+        color: $white;
+      }
+    }
+  }
+}

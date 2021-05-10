@@ -1,0 +1,110 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: $grey;
+  color: $black;
+  width: 100%;
+  height: 100%;
+  font-family: $open;
+  font-size: 16px;
+  font-weight: normal;
+  letter-spacing: 0;
+  line-height: 1.7;
+  word-break: break-word;
+}
+
+a {
+  color: $black;
+  text-decoration: none;
+  position: relative;
+  @include transition_c(all 0.3s ease-out);
+
+  &.not-hover::before {
+    display: none;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    background: currentColor;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    transform-origin: center right;
+    @include tranform_c(scaleX(0));
+    @include transition_c(transform .3s cubic-bezier(.4, 0, 0, 1));
+  }
+
+  &:link,
+  &:visited {
+    color: currentColor;
+  }
+
+  &:active,
+  &:hover {
+    opacity: 1;
+
+    &.not-hover {
+      opacity: 0.5;
+    }
+
+    &::before {
+      transform-origin: center left;
+      @include tranform_c(scaleX(1));
+    }
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  @include transition_c(all 0.3s ease-out);
+
+  &:focus {
+    outline: none;
+  }
+
+  @include respond(hover) {
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+img {
+  height: auto;
+  vertical-align: middle;
+}
+
+input {
+  &:focus {
+    outline: none;
+  }
+}
+
+.container {
+  width: calc(100% - 30px);
+  max-width: 1024px;
+  margin: 0 auto;
+
+  &--small {
+    max-width: 880px;
+  }
+}
