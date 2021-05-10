@@ -72,8 +72,7 @@ const blogReducer = (state = initialState, action) => {
       state.loading = false;
       break;
     case "REACTION_REQUEST_SUCCESS":
-      state.loading = false;
-      break;
+      return { ...state, loading: false };
     default:
       break;
   }

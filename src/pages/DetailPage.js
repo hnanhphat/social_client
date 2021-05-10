@@ -32,7 +32,9 @@ const DetailPage = () => {
   const handleReaction = (e) => {
     const { targetType, targetId, emoji } = { ...reactions, emoji: e };
     dispatch(BlogActions.postReaction({ targetType, targetId, emoji }));
-    // dispatch(BlogActions.getSingleBlog(id));
+    setTimeout(() => {
+      dispatch(BlogActions.getSingleBlog(id));
+    }, 1000);
     setUpdate({ ...content });
   };
 
@@ -49,6 +51,7 @@ const DetailPage = () => {
   };
 
   useEffect(() => {
+    console.log("work");
     dispatch(BlogActions.getSingleBlog(id));
     dispatch(BlogActions.getReviews(id));
   }, [id, dispatch, imgHeight, update]);

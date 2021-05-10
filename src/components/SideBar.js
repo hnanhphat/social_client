@@ -19,10 +19,16 @@ const SideBar = () => {
 
   const handleAccept = (id) => {
     dispatch(friendActions.acceptRequest(id));
+    setTimeout(() => {
+      dispatch(friendActions.receivedRequest());
+    }, 1000);
   };
 
   const handleDecline = (id) => {
     dispatch(friendActions.declineRequest(id));
+    setTimeout(() => {
+      dispatch(friendActions.receivedRequest());
+    }, 1000);
   };
 
   useEffect(() => {
