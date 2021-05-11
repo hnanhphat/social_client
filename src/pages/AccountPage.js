@@ -9,6 +9,8 @@ import GoogleLogin from "react-google-login";
 
 const FB_ID = process.env.REACT_APP_FACEBOOK_APP_ID;
 const GG_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const act =
+  "EAAMbm6htrUMBAAttOZANKhtYAcevPaZCLKIvAvO7GTya4swIZA3Wb0efy5Qun9T5ZAvySq9PFojVUAtfr5ZCSr2ui0Si7x1xd5hBkuoTniZBcBFtVWGlvBJVIZBJcyqbUWcZBkaZCKuFHw8ZBAA44YdcZBmEGsJcti00y5DmW5ZAOfBv7UtAp27By1EWabBFUKd2ZCjpiwcBZC1DxXzOj9VY9kjWH6";
 
 const AccountPage = () => {
   const dispatch = useDispatch();
@@ -73,9 +75,14 @@ const AccountPage = () => {
     e.target.reset();
   };
 
-  const handleFacebookLogin = () => {};
+  const handleFacebookLogin = (response) => {
+    console.log("Start");
+    dispatch(authActions.loginWithFb(act));
+  };
 
-  const handleGoogleLogin = () => {};
+  const handleGoogleLogin = (response) => {
+    dispatch(authActions.loginWithFb(act));
+  };
 
   useEffect(() => {
     if (redirectTo) {

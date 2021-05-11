@@ -19,6 +19,42 @@ const loginUser = (data) => async (dispatch) => {
   }
 };
 
+const loginWithFb = (access_token) => async (dispatch) => {
+  dispatch({ type: "LOGIN_FACEBOOK_REQUEST", payload: null });
+  try {
+    console.log("Doing");
+    const res = await api.post("/auth/login/facebook", access_token);
+    const name = res.data.data.user.name;
+    console.log(res);
+    dispatch({ type: "LOGIN_FACEBOOK_SUCCESS", payload: res.data.data });
+    localStorage.setItem("accessToken", res.data.data.accessToken);
+    api.defaults.headers["authorization"] =
+      "Bearer " + res.data.data.accessToken;
+    dispatch(routeActions.redirect("/"));
+  } catch (error) {
+    console.log("Fail");
+    dispatch({ type: "LOGIN_FACEBOOK_FAILURE", payload: null });
+  }
+};
+
+const loginWithGg = (access_token) => async (dispatch) => {
+  dispatch({ type: "LOGIN_GOOGLE_REQUEST", payload: null });
+  try {
+    console.log("Doing");
+    const res = await api.post("/auth/login/google", access_token);
+    const name = res.data.data.user.name;
+    console.log(res);
+    dispatch({ type: "LOGIN_GOOGLE_SUCCESS", payload: res.data.data });
+    localStorage.setItem("accessToken", res.data.data.accessToken);
+    api.defaults.headers["authorization"] =
+      "Bearer " + res.data.data.accessToken;
+    dispatch(routeActions.redirect("/"));
+  } catch (error) {
+    console.log("Fail");
+    dispatch({ type: "LOGIN_GOOGLE_FAILURE", payload: null });
+  }
+};
+
 const registerUser = (data) => async (dispatch) => {
   try {
     dispatch({ type: "REGISTER_REQUEST_START", payload: null });
@@ -43,4 +79,10 @@ const logoutUser = () => async (dispatch) => {
   }
 };
 
-export const authActions = { loginUser, registerUser, logoutUser };
+export const authActions = {
+  loginUser,
+  loginWithFb,
+  loginWithGg,
+  registerUser,
+  logoutUser,
+};
