@@ -96,7 +96,6 @@ const AccountPage = () => {
           <div className="social">
             <FacebookLogin
               appId={FB_ID}
-              autoLoad={true}
               fields="name,email,picture"
               callback={handleFacebookLogin}
               onFailure={(error) => {
