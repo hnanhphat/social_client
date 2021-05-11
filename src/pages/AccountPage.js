@@ -95,7 +95,7 @@ const AccountPage = () => {
           <h3 className="title">Sign in to Te Quiero</h3>
           <div className="social">
             <FacebookLogin
-              appId={FB_ID}
+              appId="653459172720138"
               autoLoad={true}
               fields="name,email,picture"
               callback={handleFacebookLogin}
@@ -104,10 +104,12 @@ const AccountPage = () => {
               }}
             />
             <GoogleLogin
-              clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+              clientId="568573677523-psamsmrnj9jloae7s7515ebvippn7i34.apps.googleusercontent.com"
               buttonText="Login"
-              // onSuccess={responseGoogle}
-              // onFailure={responseGoogle}
+              onSuccess={handleGoogleLogin}
+              onFailure={(error) => {
+                console.log("Google login error:", error);
+              }}
               cookiePolicy={"single_host_origin"}
             />
             ,
