@@ -7,8 +7,8 @@ import { routeActions } from "../redux/actions/route.action";
 import FacebookLogin from "react-facebook-login";
 import GoogleLogin from "react-google-login";
 
-const FB_ID = process.env.FACEBOOK_APP_ID;
-const GG_ID = process.env.GOOGLE_CLIENT_ID;
+const FB_ID = process.env.REACT_APP_FACEBOOK_APP_ID;
+const GG_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const AccountPage = () => {
   const dispatch = useDispatch();
@@ -95,7 +95,7 @@ const AccountPage = () => {
           <h3 className="title">Sign in to Te Quiero</h3>
           <div className="social">
             <FacebookLogin
-              appId="653459172720138"
+              appId={FB_ID}
               autoLoad={true}
               fields="name,email,picture"
               callback={handleFacebookLogin}
@@ -104,7 +104,7 @@ const AccountPage = () => {
               }}
             />
             <GoogleLogin
-              clientId="568573677523-psamsmrnj9jloae7s7515ebvippn7i34.apps.googleusercontent.com"
+              clientId={GG_ID}
               buttonText="Login"
               onSuccess={handleGoogleLogin}
               onFailure={(error) => {
