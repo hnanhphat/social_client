@@ -4,13 +4,11 @@ import { useHistory } from "react-router";
 import { authActions } from "../redux/actions/auth.action";
 import { routeActions } from "../redux/actions/route.action";
 
-import FacebookLogin from "react-facebook-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
 
 const FB_ID = process.env.REACT_APP_FACEBOOK_APP_ID;
 const GG_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-const act =
-  "EAAMbm6htrUMBAAttOZANKhtYAcevPaZCLKIvAvO7GTya4swIZA3Wb0efy5Qun9T5ZAvySq9PFojVUAtfr5ZCSr2ui0Si7x1xd5hBkuoTniZBcBFtVWGlvBJVIZBJcyqbUWcZBkaZCKuFHw8ZBAA44YdcZBmEGsJcti00y5DmW5ZAOfBv7UtAp27By1EWabBFUKd2ZCjpiwcBZC1DxXzOj9VY9kjWH6";
 
 const AccountPage = () => {
   const dispatch = useDispatch();
@@ -75,13 +73,13 @@ const AccountPage = () => {
     e.target.reset();
   };
 
-  const handleFacebookLogin = (response) => {
+  const handleFacebookLogin = (user) => {
     console.log("Start");
-    dispatch(authActions.loginWithFb(act));
+    dispatch(authActions.loginWithFb(user.accessToken));
   };
 
-  const handleGoogleLogin = (response) => {
-    dispatch(authActions.loginWithGg(act));
+  const handleGoogleLogin = (user) => {
+    dispatch(authActions.loginWithGg(user.accessToken));
   };
 
   useEffect(() => {
@@ -101,58 +99,74 @@ const AccountPage = () => {
         <div className="account__form">
           <h3 className="title">Sign in to Te Quiero</h3>
           <div className="social">
-            <FacebookLogin
-              appId={FB_ID}
-              fields="name,email,picture"
-              callback={handleFacebookLogin}
-              onFailure={(error) => {
-                console.log("Facebook login error:", error);
-              }}
-            />
-            <GoogleLogin
-              clientId={GG_ID}
-              buttonText="Login"
-              onSuccess={handleGoogleLogin}
-              onFailure={(error) => {
-                console.log("Google login error:", error);
-              }}
-              cookiePolicy={"single_host_origin"}
-            />
-            ,
-            <button>
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                data-prefix="fab"
-                data-icon="facebook-f"
-                className="svg-inline--fa fa-facebook-f fa-w-10"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 320 512"
-              >
-                <path
-                  fill="currentColor"
-                  d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
-                ></path>
-              </svg>
-            </button>
-            <button>
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                data-prefix="fab"
-                data-icon="google-plus-g"
-                className="svg-inline--fa fa-google-plus-g fa-w-20"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 640 512"
-              >
-                <path
-                  fill="currentColor"
-                  d="M386.061 228.496c1.834 9.692 3.143 19.384 3.143 31.956C389.204 370.205 315.599 448 204.8 448c-106.084 0-192-85.915-192-192s85.916-192 192-192c51.864 0 95.083 18.859 128.611 50.292l-52.126 50.03c-14.145-13.621-39.028-29.599-76.485-29.599-65.484 0-118.92 54.221-118.92 121.277 0 67.056 53.436 121.277 118.92 121.277 75.961 0 104.513-54.745 108.965-82.773H204.8v-66.009h181.261zm185.406 6.437V179.2h-56.001v55.733h-55.733v56.001h55.733v55.733h56.001v-55.733H627.2v-56.001h-55.733z"
-                ></path>
-              </svg>
-            </button>
+            <div className="social__fb">
+              <FacebookLogin
+                appId={FB_ID}
+                fields="name,email,picture"
+                callback={(user) => {
+                  handleFacebookLogin(user);
+                }}
+                onFailure={(error) => {
+                  console.log("Facebook login error:", error);
+                }}
+                cssClass=""
+                render={(renderProps) => (
+                  <button onClick={renderProps.onClick}>
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fab"
+                      data-icon="facebook-f"
+                      className="svg-inline--fa fa-facebook-f fa-w-10"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 320 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+                      ></path>
+                    </svg>
+                  </button>
+                )}
+              />
+            </div>
+            <div className="social__gg">
+              <GoogleLogin
+                clientId={GG_ID}
+                onSuccess={(user) => {
+                  handleGoogleLogin(user);
+                }}
+                onFailure={(error) => {
+                  console.log("Google login error:", error);
+                }}
+                cookiePolicy={"single_host_origin"}
+                buttonText=""
+                className=""
+                render={(renderProps) => (
+                  <button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fab"
+                      data-icon="google-plus-g"
+                      className="svg-inline--fa fa-google-plus-g fa-w-20"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 640 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M386.061 228.496c1.834 9.692 3.143 19.384 3.143 31.956C389.204 370.205 315.599 448 204.8 448c-106.084 0-192-85.915-192-192s85.916-192 192-192c51.864 0 95.083 18.859 128.611 50.292l-52.126 50.03c-14.145-13.621-39.028-29.599-76.485-29.599-65.484 0-118.92 54.221-118.92 121.277 0 67.056 53.436 121.277 118.92 121.277 75.961 0 104.513-54.745 108.965-82.773H204.8v-66.009h181.261zm185.406 6.437V179.2h-56.001v55.733h-55.733v56.001h55.733v55.733h56.001v-55.733H627.2v-56.001h-55.733z"
+                      ></path>
+                    </svg>
+                  </button>
+                )}
+              />
+            </div>
           </div>
           <p className="note">or use your email account:</p>
           <form className="form" onSubmit={handleSignInSubmit}>
@@ -228,40 +242,74 @@ const AccountPage = () => {
         <div className="account__form">
           <h3 className="title">Create Account</h3>
           <div className="social">
-            <button>
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                data-prefix="fab"
-                data-icon="facebook-f"
-                className="svg-inline--fa fa-facebook-f fa-w-10"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 320 512"
-              >
-                <path
-                  fill="currentColor"
-                  d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
-                ></path>
-              </svg>
-            </button>
-            <button>
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                data-prefix="fab"
-                data-icon="google-plus-g"
-                className="svg-inline--fa fa-google-plus-g fa-w-20"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 640 512"
-              >
-                <path
-                  fill="currentColor"
-                  d="M386.061 228.496c1.834 9.692 3.143 19.384 3.143 31.956C389.204 370.205 315.599 448 204.8 448c-106.084 0-192-85.915-192-192s85.916-192 192-192c51.864 0 95.083 18.859 128.611 50.292l-52.126 50.03c-14.145-13.621-39.028-29.599-76.485-29.599-65.484 0-118.92 54.221-118.92 121.277 0 67.056 53.436 121.277 118.92 121.277 75.961 0 104.513-54.745 108.965-82.773H204.8v-66.009h181.261zm185.406 6.437V179.2h-56.001v55.733h-55.733v56.001h55.733v55.733h56.001v-55.733H627.2v-56.001h-55.733z"
-                ></path>
-              </svg>
-            </button>
+            <div className="social__fb">
+              <FacebookLogin
+                appId={FB_ID}
+                fields="name,email,picture"
+                callback={(user) => {
+                  handleFacebookLogin(user);
+                }}
+                onFailure={(error) => {
+                  console.log("Facebook login error:", error);
+                }}
+                cssClass=""
+                render={(renderProps) => (
+                  <button onClick={renderProps.onClick}>
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fab"
+                      data-icon="facebook-f"
+                      className="svg-inline--fa fa-facebook-f fa-w-10"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 320 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+                      ></path>
+                    </svg>
+                  </button>
+                )}
+              />
+            </div>
+            <div className="social__gg">
+              <GoogleLogin
+                clientId={GG_ID}
+                onSuccess={(user) => {
+                  handleGoogleLogin(user);
+                }}
+                onFailure={(error) => {
+                  console.log("Google login error:", error);
+                }}
+                cookiePolicy={"single_host_origin"}
+                buttonText=""
+                className=""
+                render={(renderProps) => (
+                  <button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fab"
+                      data-icon="google-plus-g"
+                      className="svg-inline--fa fa-google-plus-g fa-w-20"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 640 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M386.061 228.496c1.834 9.692 3.143 19.384 3.143 31.956C389.204 370.205 315.599 448 204.8 448c-106.084 0-192-85.915-192-192s85.916-192 192-192c51.864 0 95.083 18.859 128.611 50.292l-52.126 50.03c-14.145-13.621-39.028-29.599-76.485-29.599-65.484 0-118.92 54.221-118.92 121.277 0 67.056 53.436 121.277 118.92 121.277 75.961 0 104.513-54.745 108.965-82.773H204.8v-66.009h181.261zm185.406 6.437V179.2h-56.001v55.733h-55.733v56.001h55.733v55.733h56.001v-55.733H627.2v-56.001h-55.733z"
+                      ></path>
+                    </svg>
+                  </button>
+                )}
+              />
+            </div>
           </div>
           <p className="note">or use your email for registration:</p>
           <form className="form" onSubmit={handleSignUpSubmit}>

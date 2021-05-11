@@ -482,6 +482,14 @@ input:focus {
       display: flex;
       justify-content: center;
       padding: 14px; }
+      .account__form .social__btn {
+        display: block; }
+        .account__form .social__btn span button {
+          font-size: 0;
+          margin: 0;
+          padding: 0; }
+        .account__form .social__btn svg {
+          height: 16px; }
       .account__form .social button {
         border: 1px solid #dbdbdb;
         border-radius: 50%;
@@ -549,7 +557,7 @@ input:focus {
             -ms-transform: translate(-50%, -50%);
             -o-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%); }
-    .account__form .form button[type=submit] {
+    .account__form .form button[type="submit"] {
       background-image: linear-gradient(to right, #eb6d7c, #bd2950);
       border-radius: 100px;
       color: #fff;
