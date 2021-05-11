@@ -81,7 +81,7 @@ const AccountPage = () => {
   };
 
   const handleGoogleLogin = (response) => {
-    dispatch(authActions.loginWithFb(act));
+    dispatch(authActions.loginWithGg(act));
   };
 
   useEffect(() => {
