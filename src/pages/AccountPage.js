@@ -4,6 +4,12 @@ import { useHistory } from "react-router";
 import { authActions } from "../redux/actions/auth.action";
 import { routeActions } from "../redux/actions/route.action";
 
+import FacebookLogin from "react-facebook-login";
+import GoogleLogin from "react-google-login";
+
+const FB_ID = process.env.FACEBOOK_APP_ID;
+const GG_ID = process.env.GOOGLE_CLIENT_ID;
+
 const AccountPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -67,6 +73,10 @@ const AccountPage = () => {
     e.target.reset();
   };
 
+  const handleFacebookLogin = () => {};
+
+  const handleGoogleLogin = () => {};
+
   useEffect(() => {
     if (redirectTo) {
       history.push(redirectTo);
@@ -84,6 +94,23 @@ const AccountPage = () => {
         <div className="account__form">
           <h3 className="title">Sign in to Te Quiero</h3>
           <div className="social">
+            <FacebookLogin
+              appId={FB_ID}
+              autoLoad={true}
+              fields="name,email,picture"
+              callback={handleFacebookLogin}
+              onFailure={(error) => {
+                console.log("Facebook login error:", error);
+              }}
+            />
+            <GoogleLogin
+              clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+              buttonText="Login"
+              // onSuccess={responseGoogle}
+              // onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
+            ,
             <button>
               <svg
                 aria-hidden="true"
